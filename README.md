@@ -1,114 +1,116 @@
-🚀 TELCO CUSTOMER CHURN PREDICTION MLOPS STACK
+# 🚀 END-TO-END TELCO CHURN PREDICTION MLOPS STACK 📊
 
-This project delivers an end-to-end Machine Learning Operations (MLOps) solution designed to predict customer churn risk for a telecommunications company. It consists of two primary services communicating via a modern API standard.
+This project implements a complete Machine Learning Operations (MLOps) pipeline for predicting customer churn risk. It features a robust, decoupled architecture where a production-grade machine learning model is served via a high-performance API.
 
-🏗️ Project Architecture
-Goal: To serve a pre-trained XGBoost model and consume its predictions through a user-friendly interface.
+-----
 
-Decoupled Services: The application is split into two distinct services that communicate via HTTP requests, ensuring scalability and maintainability .
+## ✨ Key Technologies
 
-1. Backend API (FastAPI)
+  * **Backend & API:** FastAPI, Pydantic
+  * **Frontend & UI:** Flask, Jinja2, Bootstrap
+  * **Machine Learning:** XGBoost, Scikit-learn, Joblib, Pandas
+  * **Deployment:** Render (Cloud Platform)
 
-Technology: FastAPI and Python.
+-----
 
-Function: Hosts the trained ML model and data preprocessor (artifacts/).
+## 🏗️ Architecture Overview
 
-Validation: Enforces strict data integrity using Pydantic schemas for input validation.
+The system is designed with a service-oriented architecture to ensure scalability and independent deployment .
 
-Local Endpoint: http://localhost:8000/predict (Prediction endpoint).
+### 1\. Backend Prediction API (FastAPI)
 
-Documentation: Swagger UI available at http://localhost:8000/docs.
+  * **Role:** Model serving and inference.
+  * **Features:**
+      * Loads the trained model (`best_model.joblib`) and preprocessor (`preprocessor.joblib`) from the `artifacts/` directory.
+      * Enforces strict data validation using **Pydantic** schemas.
+      * **Local Endpoint:** `http://localhost:8000/predict`
 
-2. Frontend Web (Flask)
+### 2\. Frontend Web Application (Flask)
 
-Technology: Flask and Jinja2.
+  * **Role:** User interface and API client.
+  * **Features:**
+      * Provides a clean, aesthetic web form for user data entry.
+      * Collects and formats the data into a JSON payload.
+      * Sends the JSON payload to the FastAPI backend and displays the churn probability result.
+      * **Local Endpoint:** `http://127.0.0.1:5000/`
 
-Function: Provides the User Interface (UI) for customer data entry.
+-----
 
-Role: Sends the collected data as a JSON payload to the FastAPI service and displays the calculated churn probability.
+## 🛠️ Local Setup and Execution
 
-Local Endpoint: http://127.0.0.1:5000/ (Main application view).
+### Prerequisites
 
-🛠️ Local Setup and Run Instructions
-Prerequisites
-Python 3.9+
+  * Python 3.9+
+  * Git
+  * All model artifacts present in the `artifacts/` folder.
 
-pip
+### Setup Instructions
 
-Git
+1.  **Clone the Repository:**
 
-Artifacts: Ensure the artifacts/preprocessor.joblib and artifacts/best_model.joblib files are present.
+    ```bash
+    git clone <YOUR_REPO_URL>
+    cd <YOUR_PROJECT_NAME>
+    ```
 
-Setup and Dependencies
-Clone the repository:
+2.  **Install Backend Dependencies** (Use `venv_backend`):
 
-Bash
+    ```bash
+    python -m venv venv_backend
+    source venv_backend/bin/activate
+    pip install -r backend_requirements.txt
+    deactivate
+    ```
 
-git clone [<YOUR_REPO_URL>]
-cd <YOUR_PROJECT_NAME>
-Install dependencies for the Backend (use venv_backend):
+3.  **Install Frontend Dependencies** (Use `venv_frontend`):
 
-Bash
+    ```bash
+    python -m venv venv_frontend
+    source venv_frontend/bin/activate
+    pip install -r frontend_requirements.txt
+    deactivate
+    ```
 
-python -m venv venv_backend
-source venv_backend/bin/activate
-pip install -r backend_requirements.txt
-deactivate
-Install dependencies for the Frontend (use venv_frontend):
+### Running the Services
 
-Bash
+  * **Start FastAPI Backend:**
+    ```bash
+    source venv_backend/bin/activate 
+    uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+    ```
+  * **Start Flask Frontend:**
+    ```bash
+    source venv_frontend/bin/activate 
+    python frontend_app.py
+    ```
 
-python -m venv venv_frontend
-source venv_frontend/bin/activate
-pip install -r frontend_requirements.txt
-deactivate
-Running the Services
-Start FastAPI Backend (Port 8000):
+-----
 
-Bash
+## ☁️ Cloud Deployment (Render)
 
-source venv_backend/bin/activate 
-uvicorn app:app --host 0.0.0.0 --port 8000 --reload
-Start Flask Frontend (Port 5000):
+The application is configured for deployment as two separate **Web Services** on Render for robust production handling.
 
-Bash
+### Deployment Preparation
 
-source venv_frontend/bin/activate 
-python frontend_app.py
-☁️ Deployment to Render
-This process involves deploying the two services separately to Render as Web Services.
+  * **Update Endpoint:** Prior to pushing for deployment, ensure the `API_URL` variable in **`frontend_app.py`** is updated to the live public URL of your FastAPI service (e.g., `https://my-telco-api.onrender.com/predict`).
+  * **Commit:** Commit this change and push to your main branch.
 
-Update API Endpoint
-Before deployment, update the API_URL variable in frontend_app.py to point to the live public URL of your deployed FastAPI service.
+### Render Configuration Summary
 
-Python
+  * **FastAPI Backend Service:**
+      * **Build Command:** `pip install -r backend_requirements.txt`
+      * **Start Command:** `uvicorn app:app --host 0.0.0.0 --port $PORT`
+  * **Flask Frontend Service:**
+      * **Build Command:** `pip install -r frontend_requirements.txt`
+      * **Start Command:** `gunicorn frontend_app:app` (Recommended Gunicorn for production Flask serving).
 
-# Change from local: API_URL = "http://localhost:8000/predict" 
-# To Render: API_URL = "https://<YOUR-RENDER-BACKEND-NAME>.onrender.com/predict" 
-Commit and push this change before deploying.
+-----
 
-Deployment Configuration
-FastAPI Backend Service:
+## 📂 Repository Structure
 
-Build Command: pip install -r backend_requirements.txt
-
-Start Command: uvicorn app:app --host 0.0.0.0 --port $PORT
-
-Flask Frontend Service:
-
-Build Command: pip install -r frontend_requirements.txt
-
-Start Command: gunicorn frontend_app:app (Uses Gunicorn for stable production serving).
-
-🔗 Repository Contents
-app.py: FastAPI server logic.
-
-frontend_app.py: Flask server logic.
-
-index.html: Jinja2 web template.
-
-artifacts/: Directory containing model files (.joblib).
-
-backend_requirements.txt: Dependencies for the FastAPI service.
-
-frontend_requirements.txt: Dependencies for the Flask service.
+  * `app.py`: FastAPI application, model loading, and prediction logic.
+  * `frontend_app.py`: Flask application, UI logic, and API client.
+  * `index.html`: Web interface template (Jinja2).
+  * `artifacts/`: Contains saved model artifacts (`.joblib` files).
+  * `backend_requirements.txt`: Dependencies for the FastAPI service.
+  * `frontend_requirements.txt`: Dependencies for the Flask service.
