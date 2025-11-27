@@ -1,0 +1,15 @@
+creation_timestamp: 1764051178303
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1764051178303
+model_id: m-c912f5e742974f86bb355793f6a9605a
+name: XGBoost_Churn_Predictor
+run_id: b34fa9eb239d4209a2b3491c3b38c9c3
+run_link: null
+source: models:/m-c912f5e742974f86bb355793f6a9605a
+status: READY
+status_message: null
+storage_location: file:///D:/churn_prediction/mlruns/352297496557236138/models/m-c912f5e742974f86bb355793f6a9605a/artifacts
+user_id: null
+version: 1

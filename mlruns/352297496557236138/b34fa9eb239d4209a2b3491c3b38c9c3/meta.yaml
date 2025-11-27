@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/churn_prediction/mlruns/352297496557236138/b34fa9eb239d4209a2b3491c3b38c9c3/artifacts
+end_time: 1764051178402
+entry_point_name: ''
+experiment_id: '352297496557236138'
+lifecycle_stage: active
+run_id: b34fa9eb239d4209a2b3491c3b38c9c3
+run_name: Tuning_Run_XGBoost
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764051138413
+status: 3
+tags: []
+user_id: '91861'
