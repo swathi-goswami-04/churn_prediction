@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, jsonify, flash, redirect, url
 # --- Configuration ---
 # Point this to your running FastAPI model service endpoint
 # The Dockerfile for the FastAPI app exposes port 8000
-API_URL = "http://localhost:8000/predict" 
+API_URL = "https://telco-churn-api-6h4y.onrender.com/predict" 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a_secure_random_key_for_flash_messages' # Required for flash messages
